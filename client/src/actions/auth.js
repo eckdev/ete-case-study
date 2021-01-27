@@ -4,9 +4,7 @@ import axios from 'axios';
 const API_URL = "http://localhost:5000";
 
 export const registerUser = (user) => (dispatch) => {
-    return axios.post(API_URL + '/api/users/register', user, {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }).then(
+    return axios.post(API_URL + '/api/users/register', user).then(
         () => {
             dispatch({
                 type: ACTION_TYPES.REGISTER_SUCCESS,
