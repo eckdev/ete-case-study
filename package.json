@@ -4,7 +4,11 @@
   "description": "Ete Case Study",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "server": "node index.js",
+    "frontend": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
+    "build": "npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "",
   "license": "ISC",

@@ -1,0 +1,201 @@
+.wrapper{
+    padding: 6% 2rem 1rem 2rem;
+    margin: 0 auto 2rem auto;
+    overflow: hidden;
+}
+
+.container{
+    width:430px;
+    margin:0 auto;
+}
+.head{
+    margin-top:1rem;
+    margin-bottom: 3rem;
+}
+h3{
+    margin-bottom: .5rem;
+    line-height: 1.2;
+    margin-top: 0;
+}
+.title{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color:#595d6e;
+}
+
+.form{
+    margin:0 auto;
+}
+
+.form .inputGroup{
+    padding: 0;
+    margin:0 auto;
+}
+.inputGroup{
+    position: relative;
+    display:flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width:100%
+}
+
+.inputGroup .eckInput{
+    height: 46px;
+    border:none;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-top: 1.5rem;
+    background: rgba(235, 237, 242, 0.4);
+}
+
+.error{
+    width: 100%;
+    margin-top: .25rem;
+    color:red;
+    font-weight: 500;
+    font-size: .9rem;
+    padding-left: 1.6rem;
+}
+
+.forgotPassword{
+    text-align: right;    
+    width: 100%;
+}
+
+.loginExtra{
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color:#74788d;
+    font-size: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.loginActions{
+    text-align: center;
+    margin-top: 7%;
+}
+.loginButton{
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    background-color: #3d94fb;
+    border-color: #3d94fb;
+    color:#fff;
+}
+
+.loginButton:hover{
+    color: #fff;
+    background-color: #187ffa;
+    border-color: #187ffa;
+}
+
+.loading{
+    animation: rotate 2s linear infinite;
+    z-index: 2;
+    position: absolute;
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.loading circle{
+    stroke: #fff;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+}
+.account{
+    text-align: center;
+    margin-top: 2rem;
+}
+.accountMsg{
+    font-size: 1rem;
+    font-weight: 400;
+    color:#74788d;
+    margin-right: 20px;
+}
+.account a{
+    font-size: 1rem;
+    font-weight: 500;
+    color:#74788d;
+    outline: none;
+    text-decoration: none;
+    background-color: transparent;
+}
+.account a:hover{
+    color: #3d94fb;
+    transition: color 0.3s ease;
+}
+.divider{
+    margin: 2rem 0 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.divider span:first-child, .divider span:last-child{
+    width: 100%;
+    height: 1px;
+    flex: 1;
+    background: #EBECF1;
+    display: inline-block;
+}
+.divider > span:not(:first-child):not(:last-child) {
+    padding: 0 2rem;
+}
+
+.alert{
+    background: #F90904;
+    border: 1px solid #F90904;
+    color: #ffffff;
+    display: flex;
+    align-items: stretch;
+    padding: .7rem 2rem;
+    margin: 0 0 20px 0;
+    border-radius: 4px;
+}
+.alertText{
+    color:#fff;
+    align-self: center;
+    flex-grow: 1;
+}
+.alertClose{
+    padding: 0 0 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.alertClose svg{
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    fill:#fff;
+}
+
+@keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -124;
+    }
+  }
+
+@media (max-width:768px){
+    .wrapper,.container,.form{
+        width: 100%;
+        margin: 0 auto;
+    }
+}
