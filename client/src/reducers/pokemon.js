@@ -7,7 +7,7 @@ export default function(state = [], action) {
       case UPDATE_POKEMON:
         return state.map(pokemon =>
           pokemon._id === action.payload._id
-            ? { ...pokemon, isAlive: action.payload.isAlive }
+            ? { ...pokemon, isAlive: action.payload.isAlive, hp: action.payload.hp,coordinates: action.payload.coordinates }
             : pokemon
         );
     case INSERT_POKEMON:

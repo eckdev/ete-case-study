@@ -53,3 +53,8 @@ input{
     font-size: 12px;
   }
 }
+
+@keyframes mymove {
+  from {left: 0px;}
+  to {left: 50px;}
+}

@@ -11,14 +11,14 @@ const pokemonImageList = [
 ]
 
 function PokemonCard({ pokemon,index,isEnemy }) {
-    console.log(index)
     return (
         <>
         <div className={styles.list}>
             <img src={isEnemy ? pokemonImageList[index+3] : pokemonImageList[index]} alt={pokemon.name} width={50} height={50} draggable={true} />
             <div className={styles.textContainer}>
+            <progress value={pokemon.hp} max={100}>100</progress>
                 <span className={styles.pokeName}>{pokemon.name}</span>
-                <span>Attack {pokemon.attack}</span>
+                <span style={{marginRight:'10px'}}>Attack {pokemon.attack}</span>
                 <span>Defence {pokemon.defence}</span>
             </div>
         </div>

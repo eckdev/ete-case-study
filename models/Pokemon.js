@@ -18,6 +18,10 @@ const pokemonSchemas = new Schema({
     type: Number,
     default: 100
   },
+  coordinates: {
+    lat: { type: Number, default:0},
+    lng: { type: Number, default:0}
+  },
   isAlive:{
       type: Boolean,
       default:true

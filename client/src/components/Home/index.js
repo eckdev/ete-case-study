@@ -12,6 +12,7 @@ function Home() {
     useEffect(async () => {
         await dispatch(getAllPokemon());
     }, []);
+    const [isBattleArenaActive, setIsBattleArenaActive] = useState(false)
 
     return (
         <>
@@ -19,8 +20,8 @@ function Home() {
                 data ? (
                     <>
                         <div style={{ display: 'flex', width:'100%' }}>
-                            <PokemonCardList pokemonData={data} />
-                            <Map pokemonData={data} />
+                            {!isBattleArenaActive ? <PokemonCardList pokemonData={data} /> : null }
+                            <Map pokemonData={data} setIsBattleArenaActive={setIsBattleArenaActive} />
                         </div>
                         <Logs />
                     </>

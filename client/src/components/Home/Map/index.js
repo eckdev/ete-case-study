@@ -4,14 +4,15 @@ import 'leaflet/dist/leaflet.css';
 
 import MyMarker from './MyMarker'
 
-function Map({pokemonData}) {
+function Map({pokemonData, setIsBattleArenaActive}) {
     const position = [51.505, -0.09];
     const fillRedOptions = { fillColor: 'green' }
+    const [isBattleButtonActive, setIsBattleButtonActive] = useState(false);
 
     return (
-        <>
+        <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
             {
-                    <MapContainer style={{ height: '500px', width: '70%', marginLeft:'20px' }} center={position} zoom={3} scrollWheelZoom={false} id="map">
+                    <MapContainer style={{ height: '575px', width: '100%',zIndex:0 }} center={position} zoom={3} scrollWheelZoom={false} id="map">
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -23,11 +24,11 @@ function Map({pokemonData}) {
                             stroke={false}
                         >
                         </Circle>
-                        <Marker position={[51,168]}></Marker>
-                        <MyMarker pokemonData={pokemonData} />
+                        <MyMarker pokemonData={pokemonData} setIsBattleButtonActive={setIsBattleButtonActive} />
                     </MapContainer>
             }
-        </>
+            { isBattleButtonActive ? <button onClick={() => setIsBattleArenaActive(true)}>Start Battle</button> : null }
+        </div>
     )
 }
 

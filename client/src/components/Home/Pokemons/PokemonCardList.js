@@ -11,33 +11,37 @@ function PokemonCardList({ pokemonData }) {
     const [IsModalOpen, setIsModalOpen] = useState(false)
     return (
         < div className={styles.pokemonContainer}>
-            {
-                myPokemons.length > 0 ?
-                    <div className={styles.container}>
-                        <div className={styles.cardBody}>
-                            {
-                                myPokemons.map((poke, index) => {
-                                    return <PokemonCard key={index} pokemon={poke} index={index} isEnemy={false} />
-                                })
-                            }
-                            {
-                                myPokemons.length < 3 ? <CreatePokemonButton isModalOpen={IsModalOpen} setIsModalOpen={setIsModalOpen} /> : ''
-                            }
-                        </div>
-                    </div>
-                    :
-                    <span>No Record</span>
-            }
+
+            <div className={styles.container}>
+                <div className={styles.cardBody}>
+                    {
+                        myPokemons.length > 0 ?
+                            <>
+                                {
+                                    myPokemons.map((poke, index) => {
+                                        return <PokemonCard key={index} pokemon={poke} index={index} isEnemy={false} />
+                                    })
+                                }
+                            </>
+                            :
+                            <span>No Record</span>
+                    }
+                    {
+                        myPokemons.length < 3 ? <CreatePokemonButton isModalOpen={IsModalOpen} setIsModalOpen={setIsModalOpen} /> : ''
+                    }
+                </div>
+            </div>
+
             {
                 enemiesData.length > 0 ?
-                    <div className={styles.container} style={{marginTop:'20px'}}>
+                    <div className={styles.container} style={{ marginTop: '20px' }}>
                         <div className={styles.cardBody}>
-                        {
-                            enemiesData.map((poke, index) => {
-                                return <PokemonCard key={index} pokemon={poke} index={index} isEnemy={true} />
-                            })
-                        }
-                    </div></div>
+                            {
+                                enemiesData.map((poke, index) => {
+                                    return <PokemonCard key={index} pokemon={poke} index={index} isEnemy={true} />
+                                })
+                            }
+                        </div></div>
                     : null
             }
         </div>

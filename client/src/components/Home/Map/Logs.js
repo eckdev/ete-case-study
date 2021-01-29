@@ -8,17 +8,16 @@ function Logs() {
         <>
             {
                 logs.length > 0 ?
-                    <div className={styles.container} style={{marginTop:'20px' }}>
+                    <div className={styles.container} style={{ marginTop: '20px' }}>
                         <div className={styles.cardBody}>
-                            {logs.map((log) => {
-                                return (
-
-                                    <ul>
-                                        <li>{log}</li>
-                                    </ul>
-                                )
-                            })
-                            }
+                            <ul>
+                                {logs.map((log, index) => {
+                                    return (
+                                        <li key={index}>{log}</li>
+                                    )
+                                })
+                                }
+                            </ul>
                         </div>
                     </div> : null
             }

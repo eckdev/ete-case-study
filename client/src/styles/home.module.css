@@ -42,7 +42,8 @@
     width: 100%;
 }
 .pokemonContainer{
-    width:30%
+    width:30%;
+    margin-right: 20px;
 }
 .cardBody{
     flex: 1 1 auto;
@@ -52,6 +53,7 @@
 .list{
     display: flex;
     margin-bottom: 20px;
+    align-items: center;
 }
 
 .textContainer{
@@ -61,4 +63,8 @@
     width: 100%;
     display: block;
     font-weight: bold;
+}
+
+.deneme{
+    color:red;
 }
