@@ -1,4 +1,4 @@
-import {GET_ALL_POKEMONS,INSERT_POKEMON,UPDATE_POKEMON} from '../actions/types'
+import {GET_ALL_POKEMONS,INSERT_POKEMON,UPDATE_POKEMON, INSERT_LOGS} from '../actions/types'
 
 export default function(state = [], action) {
     switch (action.type) {

@@ -10,14 +10,14 @@ function PokemonCardList({ pokemonData }) {
 
     const [IsModalOpen, setIsModalOpen] = useState(false)
     return (
-        <>
+        < div className={styles.pokemonContainer}>
             {
                 myPokemons.length > 0 ?
                     <div className={styles.container}>
                         <div className={styles.cardBody}>
                             {
                                 myPokemons.map((poke, index) => {
-                                    return <PokemonCard key={index} pokemon={poke} index={index} />
+                                    return <PokemonCard key={index} pokemon={poke} index={index} isEnemy={false} />
                                 })
                             }
                             {
@@ -34,13 +34,13 @@ function PokemonCardList({ pokemonData }) {
                         <div className={styles.cardBody}>
                         {
                             enemiesData.map((poke, index) => {
-                                return <PokemonCard key={index} pokemon={poke} index={index} />
+                                return <PokemonCard key={index} pokemon={poke} index={index} isEnemy={true} />
                             })
                         }
                     </div></div>
                     : null
             }
-        </>
+        </div>
     )
 }
 

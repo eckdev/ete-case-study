@@ -39,7 +39,10 @@
     background-color: #fff;
     border-radius: .25rem;
     border:1px solid #ccc;
-    width: 30%;
+    width: 100%;
+}
+.pokemonContainer{
+    width:30%
 }
 .cardBody{
     flex: 1 1 auto;

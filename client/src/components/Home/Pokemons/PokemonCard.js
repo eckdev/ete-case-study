@@ -10,12 +10,12 @@ const pokemonImageList = [
     "http://img.pokemondb.net/artwork/charizard.jpg"
 ]
 
-function PokemonCard({ pokemon,index }) {
+function PokemonCard({ pokemon,index,isEnemy }) {
     console.log(index)
     return (
         <>
         <div className={styles.list}>
-            <img src={pokemonImageList[index]} alt={pokemon.name} width={25} height={25} />
+            <img src={isEnemy ? pokemonImageList[index+3] : pokemonImageList[index]} alt={pokemon.name} width={50} height={50} draggable={true} />
             <div className={styles.textContainer}>
                 <span className={styles.pokeName}>{pokemon.name}</span>
                 <span>Attack {pokemon.attack}</span>

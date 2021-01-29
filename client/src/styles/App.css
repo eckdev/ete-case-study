@@ -34,8 +34,14 @@ input{
   color:#495057;
 }
 .App {
-  display: flex;
-  flex-direction: column;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.leaflet-marker-icon{
+  height: 50px;
+  width: 50px;
 }
 
 *, *::before, *::after {

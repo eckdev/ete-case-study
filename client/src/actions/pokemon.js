@@ -37,3 +37,10 @@ export const updatePokemon = (id) => dispatch => {
         }
     )
 }
+
+export const insertLogs = log  =>{
+    return {
+        type: ACTION_TYPES.INSERT_LOGS,
+        payload: log
+    }
+}
