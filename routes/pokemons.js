@@ -10,7 +10,7 @@ router.post('/addPokemon', async (req, res) => {
     return res.status(400).json(errors);
   }
   const { name,attack,defence,isEnemy } = req.body;
-  const pokemon = new Pokemon({ name,attack,defence, isEnemy, isAlive:true });
+  const pokemon = new Pokemon({ name,attack,defence, isEnemy, isAlive:true,hp:100 });
   await pokemon.save();
 
   res.send(pokemon);

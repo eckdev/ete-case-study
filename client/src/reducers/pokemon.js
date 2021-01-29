@@ -11,7 +11,7 @@ export default function(state = [], action) {
             : pokemon
         );
     case INSERT_POKEMON:
-        return action.payload;
+        return state.concat(action.payload);
       default:
         return state;
     }

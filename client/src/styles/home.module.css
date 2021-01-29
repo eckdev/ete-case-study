@@ -1,0 +1,61 @@
+.form{
+    margin:0 auto;
+}
+
+.form .inputGroup{
+    padding: 0;
+    margin:0 auto;
+}
+.inputGroup{
+    position: relative;
+    display:flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width:100%
+}
+
+.inputGroup .eckInput{
+    height: 46px;
+    border:none;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-top: 1.5rem;
+    background: rgba(235, 237, 242, 0.4);
+}
+
+.error{
+    width: 100%;
+    margin-top: .25rem;
+    color:red;
+    font-weight: 500;
+    font-size: .9rem;
+    padding-left: 1.6rem;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: #fff;
+    border-radius: .25rem;
+    border:1px solid #ccc;
+    width: 30%;
+}
+.cardBody{
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.list{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.textContainer{
+    margin-left: 20px;
+}
+.pokeName{
+    width: 100%;
+    display: block;
+    font-weight: bold;
+}

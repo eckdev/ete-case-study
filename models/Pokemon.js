@@ -14,6 +14,10 @@ const pokemonSchemas = new Schema({
     type: Boolean,
     default:false
   },
+  hp:{
+    type: Number,
+    default: 100
+  },
   isAlive:{
       type: Boolean,
       default:true

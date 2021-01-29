@@ -34,7 +34,8 @@ input{
   color:#495057;
 }
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 *, *::before, *::after {
