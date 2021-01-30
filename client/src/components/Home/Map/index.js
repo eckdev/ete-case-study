@@ -32,7 +32,9 @@ function Map({pokemonData, setIsBattleArenaActive,isBattleArenaActive}) {
                         <MyMarker pokemonData={pokemonData} setIsBattleButtonActive={setIsBattleButtonActive} isBattleArenaActive={isBattleArenaActive} />
                     </MapContainer>
             }
-            { isBattleButtonActive ? <button onClick={() => setIsBattleArenaActive(true)} className={styles.startBattleButton}>Start Battle</button> : null }
+            { isBattleButtonActive ? isBattleArenaActive ? 
+            <button onClick={() => setIsBattleArenaActive(false)} className={styles.startBattleButton}>Back to Home</button> : 
+            <button onClick={() => setIsBattleArenaActive(true)} className={styles.startBattleButton}>Start Battle</button> : null }
         </div>
     )
 }

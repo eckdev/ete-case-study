@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
           ...state,
           pokemons: state.pokemons.map(pokemon =>
             pokemon._id === action.payload._id
-              ? { ...pokemon, isAlive: action.payload.isAlive, hp: action.payload.hp,coordinates: action.payload.coordinates }
+              ? { ...pokemon, hp: action.payload.hp,coordinates: action.payload.coordinates }
               : pokemon
           )
         }

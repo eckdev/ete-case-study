@@ -97,3 +97,78 @@
     padding: 1.25rem;
     text-align: center;
 }
+
+.contentWrapper{
+ display: flex;
+ width: 100%;
+}
+
+.animation{
+    transition: mymove 5s infinite;
+}
+
+.modal{
+    width: 25%;
+}
+
+.nav {
+	width: 100%;
+	float: left;
+	margin: 0 0 3em 0;
+	padding: 0;
+	list-style: none; }
+.nav li {
+	float: left; }
+
+.nav li span {
+		display: block;
+		padding: 8px 15px;
+		text-decoration: none;
+		font-weight: bold;
+		color: #069;
+        border-right: 1px solid #ccc; 
+        cursor: pointer;
+}
+
+.progressBarContainer{
+    height: 20px;
+    width: 100%;
+    background-color: #e0e0de;
+    border-radius: 50px;
+    margin: 10px
+}
+
+.filler{
+    height: 100%;
+    background-color: #3d94fb;
+    border-radius: inherit;
+    text-align: center;
+    transition: width 1s ease-in-out,
+}
+
+.pbLabel{
+    padding: 5px;
+    color:#fff;
+    font-weight: bold;
+}
+
+
+@keyframes mymove {
+    from {left: 0px;}
+    to {left: 50px;}
+  }
+
+@media (max-width:1024px){
+    .contentWrapper{
+        flex-direction: column;
+    }
+
+    .pokemonContainer{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .modal{
+        width: 100%;
+    }
+}

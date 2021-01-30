@@ -11,7 +11,6 @@ import {
 
 function App() {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('token') || false)
-
   return (
     <div className="App">
       <Router>
@@ -41,12 +40,12 @@ function App() {
                   }}
                 />
               ) : (
-                  <Register {...props} />
+                  <Register {...props} setIsLogin={setIsLogin} />
                 )
             }></Route>
           <Route path="/home" render={(props) =>
               isLogin ? (
-                <Home />
+                <Home  />
               ) : (
                 <Redirect
                   to={{

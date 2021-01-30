@@ -38,7 +38,21 @@ router.post('/register', (req, res) => {
                             newUser
                                 .save()
                                 .then(user => {
-                                    res.json(user)
+                                    const payload = {
+                                        id: user.id,
+                                        name: user.name
+                                    }
+                                    jwt.sign(payload, 'secret', {
+                                        expiresIn: 3600
+                                    }, (err, token) => {
+                                        if(err) console.error('There is some error in token', err);
+                                        else {
+                                            res.json({
+                                                success: true,
+                                                token: `Bearer ${token}`
+                                            });
+                                        }
+                                    });
                                 });
                         }
                     });

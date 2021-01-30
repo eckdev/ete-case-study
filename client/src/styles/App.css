@@ -54,7 +54,3 @@ input{
   }
 }
 
-@keyframes mymove {
-  from {left: 0px;}
-  to {left: 50px;}
-}

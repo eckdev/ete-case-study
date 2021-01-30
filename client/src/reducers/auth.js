@@ -2,12 +2,15 @@ import * as ACTION_TYPES from '../actions/types'
 
 const initialState = {
     is_authenticated: false,
-    message: ''
+    loginErrorMessage: '',
+    registerErrorMessage: ''
 }
 
 const AuthReducer = (state = initialState, action) => {
   switch(action.type) {
     case ACTION_TYPES.REGISTER_SUCCESS:
+      debugger;
+      localStorage.setItem('token', action.payload.token);
             return {
               ...state,
               is_authenticated: false,
@@ -16,7 +19,7 @@ const AuthReducer = (state = initialState, action) => {
             return {
               ...state,
               is_authenticated: false,
-              message: action.message
+              registerErrorMessage: action.message
             };
       case ACTION_TYPES.LOGIN_SUCCESS:
         localStorage.setItem('token', action.payload.token);
@@ -28,7 +31,7 @@ const AuthReducer = (state = initialState, action) => {
         return {
           ...state,
           is_authenticated: false,
-          message: action.payload
+          loginErrorMessage: action.payload
         }
       default:
         return state

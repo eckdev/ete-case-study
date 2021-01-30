@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPokemon } from "../../actions/pokemon";
+import {ToastContainer} from 'react-toastify' 
+import styles from '../../styles/home.module.css'
 
 import PokemonCardList from './Pokemons/PokemonCardList';
 import Map from './Map';
 import Logs from './Logs'
-import {ToastContainer} from 'react-toastify' 
+import Navbar from './Navbar'
 
-function Home() {
+
+function Home(props) {
     const dispatch = useDispatch();
     const {pokemons } = useSelector(state => state.pokemon);
     useEffect(async () => {
@@ -20,7 +23,8 @@ function Home() {
             {
                 pokemons.length > 0 ? (
                     <>
-                        <div style={{ display: 'flex', width:'100%' }}>
+                        <Navbar history={props.history} />
+                        <div className={styles.contentWrapper}>
                             {!isBattleArenaActive ? <PokemonCardList pokemonData={pokemons} /> : null }
                             <Map pokemonData={pokemons} setIsBattleArenaActive={setIsBattleArenaActive} isBattleArenaActive={isBattleArenaActive} />
                         </div>

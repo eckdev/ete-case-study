@@ -1,13 +1,14 @@
 import { useSelector } from 'react-redux';
+import ProgressBar from './ProgressBar'
 
 function HealthProgress() {
     const {myPokemon,enemyPokemon} = useSelector(state => state.pokemon)
-    
+debugger;
     return (
         <div style={{display:'flex', justifyContent:'space-between'}}>
-            <progress value={myPokemon.hp ?? 0} max={100} style={{width:'250px'}}>{myPokemon.name}</progress>
+            <ProgressBar completed={myPokemon?.hp} name={myPokemon?.name}></ProgressBar>
 
-            <progress value={enemyPokemon.hp ?? 0} max={100} style={{width:'250px'}}>{enemyPokemon.name}</progress>
+            <ProgressBar completed={enemyPokemon?.hp} name={enemyPokemon?.name}></ProgressBar>
         </div>
     )
 }

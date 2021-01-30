@@ -14,6 +14,7 @@ function PokemonCardList({ pokemonData }) {
 
             <div className={styles.container}>
                 <div className={styles.cardBody}>
+                    <h3>My Pokemons</h3>
                     {
                         myPokemons.length > 0 ?
                             <>
@@ -36,6 +37,7 @@ function PokemonCardList({ pokemonData }) {
                 enemiesData.length > 0 ?
                     <div className={styles.container} style={{ marginTop: '20px' }}>
                         <div className={styles.cardBody}>
+                        <h3>Enemies Pokemons</h3>
                             {
                                 enemiesData.map((poke, index) => {
                                     return <PokemonCard key={index} pokemon={poke} index={index} isEnemy={true} />

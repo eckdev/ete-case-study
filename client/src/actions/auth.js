@@ -5,9 +5,11 @@ const API_URL = "http://localhost:5000";
 
 export const registerUser = (user) => (dispatch) => {
     return axios.post(API_URL + '/api/users/register', user).then(
-        () => {
+        res => {
+            const { token } = res.data
             dispatch({
                 type: ACTION_TYPES.REGISTER_SUCCESS,
+                payload: { token: token },
             });
 
             return Promise.resolve();
@@ -43,8 +45,8 @@ export const loginUser = (user) => (dispatch) => {
     );
 };
 
-export const logout = (history) => () => {
+export const logout = () => () => {
     localStorage.removeItem('token');
-    history.push('/login');
+    window.location.href='/';
 };
 
