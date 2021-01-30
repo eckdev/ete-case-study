@@ -20,9 +20,6 @@ app.use(bodyParser.json());
 
 app.use('/api/users', users);
 app.use('/api/pokemons', pokemons);
-app.get('/', function(req, res) {
-    res.send('hello');
-});
 
 const PORT = process.env.PORT || 5000;
 
