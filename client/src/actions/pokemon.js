@@ -39,6 +39,20 @@ export const updatePokemon = (id,hp,coordinates) => dispatch => {
     )
 }
 
+export const selectMyPokemon = (id)  =>{
+    return {
+        type: ACTION_TYPES.MY_POKEMON,
+        payload: id
+    }
+}
+
+export const selectEnemyPokemon = id  =>{
+    return {
+        type: ACTION_TYPES.ENEMY_POKEMON,
+        payload: id
+    }
+}
+
 export const insertLogs = log  =>{
     return {
         type: ACTION_TYPES.INSERT_LOGS,

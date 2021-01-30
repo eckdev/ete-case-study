@@ -2,63 +2,101 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { insertLogs, updatePokemon } from '../../../actions/pokemon'
+import { insertLogs, updatePokemon,selectMyPokemon,selectEnemyPokemon } from '../../../actions/pokemon'
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../../styles/home.module.css'
 
 var selectedImages = [];
-var markers = [];
-var droppedPokemonIsEnemies, droppedPokemonIsAllies = false;
+var markers = {
+    myMarkers: [],
+    enemyMarkers: []
+};
+var enemies=[];
+var myPokemons=[];
+var droppedPokemonIsEnemies, droppedPokemonIsAllies,isBAActive = false;
 var pokeData;
 
-function MyMarker({ pokemonData, setIsBattleButtonActive }) {
-    pokeData = pokemonData;
-    const [userTurn, setuserTurn] = useState(true)
+function MyMarker(props) {
+    pokeData = props.pokemonData;
+    isBAActive = props.isBattleArenaActive;
     const leafmap = useMap();
     const dispatch = useDispatch();
 
     const attack = function (e) {
-
         let selectedEnemyPokemon = pokeData.find(x => x._id === document.getElementById("enemies-list").value);
         let myPokemon = pokeData.find(x => x._id === e.target.dataset.id);
+
+        dispatch(selectMyPokemon(myPokemon._id))
+        dispatch(selectEnemyPokemon(selectedEnemyPokemon._id))
+
         let distance = calcDistance(myPokemon.coordinates.lat, myPokemon.coordinates.lng, selectedEnemyPokemon.coordinates.lat, selectedEnemyPokemon.coordinates.lng);
 
         dispatch(insertLogs(`${myPokemon.name} attacked to ${selectedEnemyPokemon.name}`));
-        if (userTurn) {
-            let poke = {
-                hp: (selectedEnemyPokemon.hp + selectedEnemyPokemon.defence) - myPokemon.attack - Math.round(distance),
-                coordinates: selectedEnemyPokemon.coordinates
-            }
-            dispatch(updatePokemon(selectedEnemyPokemon._id, poke.hp, poke.coordinates));
-            dispatch(insertLogs(`${selectedEnemyPokemon.name} HP ${poke.hp}`));
-            debugger;
-            if (poke.hp > 0) {
-                //opposite turn
-                setTimeout(() => {
-                    let poke = {
-                        hp: (myPokemon.hp + myPokemon.defence) - selectedEnemyPokemon.attack - Math.round(distance),
-                        coordinates: myPokemon.coordinates
-                    }
-                    if (poke.hp > 0) {
-                        dispatch(updatePokemon(myPokemon._id, poke.hp, poke.coordinates));
-                        dispatch(insertLogs(`${myPokemon.name} HP ${poke.hp}`));
-                    }
-                    else{
-                        let defeatedMarker = markers.find(x=> x._latlng.lat == myPokemon.coordinates.lat && x._latlng.lng == myPokemon.coordinates.lng);
-                        leafmap.removeLayer(defeatedMarker);
-                    }
 
-                }, 1000);
-            }
-            else{
-                let defeatedMarker = markers.find(x=> x._latlng.lat == selectedEnemyPokemon.coordinates.lat && x._latlng.lng == selectedEnemyPokemon.coordinates.lng);
-                leafmap.removeLayer(defeatedMarker)
-            }
+        let mrk = markers.enemyMarkers.find(x => x._latlng.lat == selectedEnemyPokemon.coordinates.lat && x._latlng.lng == selectedEnemyPokemon.coordinates.lng);
+        let h =document.createElement('html');
+        h.innerHTML = mrk._icon.outerHTML;
+        let b =  h.getElementsByTagName('img')[0];
+        b.style.animation= "mymove 5s infinite";
 
-
-            // her istekte db ye gitmesine gerek yok.
-            // yenilen marker map'ten silinecek
+        let poke = {
+            hp: (selectedEnemyPokemon.hp + selectedEnemyPokemon.defence) - myPokemon.attack - Math.round(distance),
+            coordinates: selectedEnemyPokemon.coordinates
         }
+        if (selectedEnemyPokemon.hp > 0) {
+            dispatch(updatePokemon(selectedEnemyPokemon._id, poke.hp, poke.coordinates));
+            dispatch(insertLogs(`${selectedEnemyPokemon.name} ${poke.hp} HP life remaining`));
+            
+            //opposite turn
+            oppositeAttack(myPokemon,selectedEnemyPokemon,distance);
+        }
+        else {
+            let defeatedMarker = markers.enemyMarkers.find(x => x._latlng.lat == selectedEnemyPokemon.coordinates.lat && x._latlng.lng == selectedEnemyPokemon.coordinates.lng);
+            leafmap.removeLayer(defeatedMarker);
 
+            markers.enemyMarkers = markers.enemyMarkers.filter(function( obj ) {
+                return obj._latlng.lat !== selectedEnemyPokemon.coordinates.lat && obj._latlng.lng !== selectedEnemyPokemon.coordinates.lng;
+              });
+
+              if (markers.enemyMarkers.length === 0) {
+                toast.success('YOU WIN!',{
+                    position: "top-center"
+                });
+              }
+
+        }
+    }
+    
+    const oppositeAttack = function (myPokemon,selectedEnemyPokemon,distance) {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                dispatch(insertLogs(`${selectedEnemyPokemon.name} attacked to ${myPokemon.name}`));
+                let poke = {
+                    hp: (myPokemon.hp + myPokemon.defence) - selectedEnemyPokemon.attack - Math.round(distance),
+                    coordinates: myPokemon.coordinates
+                }
+                if (myPokemon.hp > 0) {
+                    dispatch(updatePokemon(myPokemon._id, poke.hp, poke.coordinates));
+                    dispatch(insertLogs(`${myPokemon.name} ${poke.hp} HP life remaining`));
+                }
+                else {
+                    let defeatedMarker = markers.myMarkers.find(x => x._latlng.lat == myPokemon.coordinates.lat && x._latlng.lng == myPokemon.coordinates.lng);
+                    leafmap.removeLayer(defeatedMarker);
+
+                    markers.myMarkers = markers.myMarkers.filter(function( obj ) {
+                        return obj._latlng.lat !== myPokemon.coordinates.lat && obj._latlng.lng !== myPokemon.coordinates.lng;
+                      });
+        
+                      if (markers.myMarkers.length === 0) {
+                        toast.success('ENEMIES WIN!',{
+                            position: "top-center"
+                        });
+                      }
+                }
+              resolve(true);
+            }, 1000);
+          });
     }
 
     const calcDistance = (lat1, lon1, lat2, lon2) => {
@@ -86,7 +124,7 @@ function MyMarker({ pokemonData, setIsBattleButtonActive }) {
         ev.innerHTML = e.dataTransfer.getData('text/html');
         let draggedPictureKey = ev.getElementsByTagName('img')[0].alt;
         let droppedPokemon = pokeData.filter(x => x.name === draggedPictureKey)[0];
-
+        droppedPokemon.isEnemy ? enemies.push(droppedPokemon) : myPokemons.push(droppedPokemon)
         let coordinates = leafmap.containerPointToLatLng(L.point([e.layerX, e.layerY]));
         let isMarkerInCircle = false;
 
@@ -97,28 +135,47 @@ function MyMarker({ pokemonData, setIsBattleButtonActive }) {
                 if (isMarkerInCircle) {
                     if (!selectedImages.includes(imagePath)) {
                         selectedImages.push(imagePath);
-                        let enemies = pokeData.filter(x => x.isEnemy);
+                        let popUpHtml = '';
+                        if (enemies.length > 0) {
+                            for (let i = 0; i < enemies.length; i++) {
+                                popUpHtml +=`<option value="${enemies[i]._id}">${enemies[i].name}</option>`;                            
+                            }
+                        }
+                        else{
+                            popUpHtml = `<option>Select a Enemy</option>`;
+                        }
+
+
                         let mark = L.marker(coordinates, {
                             icon: L.icon({ iconUrl: imagePath }),
                             draggable: true
                         }).bindTooltip(`<span>Name: ${droppedPokemon.name} Attack: ${droppedPokemon.attack} Defence: ${droppedPokemon.defence}</span>`, {
                             direction: 'left'
-                        }).bindPopup(`
-                             <select id="enemies-list"}">
-                                <option value="${enemies[0]._id}">${enemies[0].name}</option>
-                                <option value="${enemies[1]._id}">${enemies[1].name}</option>
-                                <option value="${enemies[2]._id}">${enemies[2].name}</option>
-                             </select>
-                             <button id="attack" data-id="${droppedPokemon._id}">Attack</button>
-                             `).openPopup()
+                        }).bindPopup(``).openPopup()
                             .addTo(leafmap);
-                        markers.push(mark);
 
                         if (droppedPokemon.isEnemy) {
                             mark.unbindPopup();
+                            droppedPokemonIsEnemies = true;
+                            markers.enemyMarkers.push(mark);
+
+                            for (let i = 0; i <  markers.myMarkers.length; i++) {
+                                const element =  markers.myMarkers[i];
+                                element.setPopupContent(`
+                                <select id="enemies-list" class="${styles.selectEnemy}">
+                                   ${popUpHtml}
+                                </select>
+                                <button id="attack" class="${styles.attackButton}" data-id="${myPokemons[i]._id}">Attack</button>
+                                `)
+                                
+                            }
                         }
-                        droppedPokemon.isEnemy ? droppedPokemonIsEnemies = true : droppedPokemonIsAllies = true;
-                        dispatch(updatePokemon(droppedPokemon._id, droppedPokemon.hp, coordinates));
+                        else{
+                            droppedPokemonIsAllies = true;
+                            markers.myMarkers.push(mark);
+                        }
+                        dispatch(updatePokemon(droppedPokemon._id, droppedPokemon.hp, coordinates)); // update pokemon coordinates
+                       
                         mark.on('dragend', function (ev) {
                             var d = leafmap.distance(ev.target._latlng, layer.getLatLng());
                             var isInside = d < layer.getRadius();
@@ -131,19 +188,25 @@ function MyMarker({ pokemonData, setIsBattleButtonActive }) {
                                     lng: ev.target._latlng.lng
                                 }
                                 dispatch(updatePokemon(droppedPokemon._id, droppedPokemon.hp, crdnt));
-                                dispatch(insertLogs(`${droppedPokemon.name} changed location ${droppedPokemon.lat - droppedPokemon.lng} to ${ev.target._latlng}`));
+                                dispatch(insertLogs(`${droppedPokemon.name} changed location LatLng(${droppedPokemon.coordinates.lat.toFixed(6)} - ${droppedPokemon.coordinates.lng.toFixed(6)}) to ${ev.target._latlng}`));
                             }
 
 
                         });
 
-                        mark.on('popupopen', function (e) {
-                            const attackButton = document.getElementById('attack');
-                            attackButton.addEventListener('click', attack);
+                        mark.on('popupopen', function (e) {                      
+                            if (isBAActive) {
+                                
+                                const attackButton = document.getElementById('attack');
+                                attackButton.addEventListener('click', attack);
+                            }
+                            else{
+                                e.target.closePopup();
+                            }
                         });
 
                         if (droppedPokemonIsAllies && droppedPokemonIsEnemies) {
-                            setIsBattleButtonActive(true)
+                            props.setIsBattleButtonActive(true)
                         }
                     }
                 }

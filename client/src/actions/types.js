@@ -15,3 +15,7 @@ export const UPDATE_POKEMON="UPDATE_POKEMON"
 export const INSERT_LOGS = "INSERT_LOGS"
 
 export const GET_LOGS = "GET_LOGS"
+
+export const MY_POKEMON = "MY_POKEMON"
+
+export const ENEMY_POKEMON = "ENEMY_POKEMON"

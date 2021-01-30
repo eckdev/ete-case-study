@@ -1,10 +1,12 @@
 import React,{useState} from 'react'
-import { MapContainer, TileLayer, Circle,Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import MyMarker from './MyMarker'
+import HealthProgress from './HealthProgress'
+import styles from '../../../styles/home.module.css'
 
-function Map({pokemonData, setIsBattleArenaActive}) {
+function Map({pokemonData, setIsBattleArenaActive,isBattleArenaActive}) {
     const position = [51.505, -0.09];
     const fillRedOptions = { fillColor: 'green' }
     const [isBattleButtonActive, setIsBattleButtonActive] = useState(false);
@@ -12,7 +14,10 @@ function Map({pokemonData, setIsBattleArenaActive}) {
     return (
         <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
             {
-                    <MapContainer style={{ height: '575px', width: '100%',zIndex:0 }} center={position} zoom={3} scrollWheelZoom={false} id="map">
+                isBattleArenaActive ? <HealthProgress /> : null
+            }
+            {
+                    <MapContainer style={{ height: '575px', width: '100%',zIndex:0,marginBottom:'20px' }} center={position} zoom={3} scrollWheelZoom={false} id="map">
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -24,10 +29,10 @@ function Map({pokemonData, setIsBattleArenaActive}) {
                             stroke={false}
                         >
                         </Circle>
-                        <MyMarker pokemonData={pokemonData} setIsBattleButtonActive={setIsBattleButtonActive} />
+                        <MyMarker pokemonData={pokemonData} setIsBattleButtonActive={setIsBattleButtonActive} isBattleArenaActive={isBattleArenaActive} />
                     </MapContainer>
             }
-            { isBattleButtonActive ? <button onClick={() => setIsBattleArenaActive(true)}>Start Battle</button> : null }
+            { isBattleButtonActive ? <button onClick={() => setIsBattleArenaActive(true)} className={styles.startBattleButton}>Start Battle</button> : null }
         </div>
     )
 }

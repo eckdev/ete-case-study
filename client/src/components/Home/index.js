@@ -4,11 +4,12 @@ import { getAllPokemon } from "../../actions/pokemon";
 
 import PokemonCardList from './Pokemons/PokemonCardList';
 import Map from './Map';
-import Logs from './Map/Logs'
+import Logs from './Logs'
+import {ToastContainer} from 'react-toastify' 
 
 function Home() {
     const dispatch = useDispatch();
-    const data = useSelector(state => state.pokemon);
+    const {pokemons } = useSelector(state => state.pokemon);
     useEffect(async () => {
         await dispatch(getAllPokemon());
     }, []);
@@ -17,18 +18,19 @@ function Home() {
     return (
         <>
             {
-                data ? (
+                pokemons.length > 0 ? (
                     <>
                         <div style={{ display: 'flex', width:'100%' }}>
-                            {!isBattleArenaActive ? <PokemonCardList pokemonData={data} /> : null }
-                            <Map pokemonData={data} setIsBattleArenaActive={setIsBattleArenaActive} />
+                            {!isBattleArenaActive ? <PokemonCardList pokemonData={pokemons} /> : null }
+                            <Map pokemonData={pokemons} setIsBattleArenaActive={setIsBattleArenaActive} isBattleArenaActive={isBattleArenaActive} />
                         </div>
                         <Logs />
+                        <ToastContainer />
                     </>
                 )
                     :
                     (
-                        <span>Loading ...</span>
+                        <span style={{textAlign:'center',padding:20}}>Loading ...</span>
                     )
             }
 
