@@ -1,10 +1,9 @@
 
 import * as ACTION_TYPES from "./types";
 import axios from 'axios';
-const API_URL = "http://localhost:5000";
 
 export const registerUser = (user) => (dispatch) => {
-    return axios.post(API_URL + '/api/users/register', user).then(
+    return axios.post('/api/users/register', user).then(
         res => {
             const { token } = res.data
             dispatch({
@@ -24,7 +23,7 @@ export const registerUser = (user) => (dispatch) => {
 };
 
 export const loginUser = (user) => (dispatch) => {
-    return axios.post(API_URL + '/api/users/login', user).then(
+    return axios.post('/api/users/login', user).then(
         res => {
             const { token } = res.data;
             dispatch({

@@ -1,9 +1,8 @@
 import * as ACTION_TYPES from "./types";
 import axios from 'axios';
-const API_URL = "http://localhost:5000";
 
 export const getAllPokemon = (isEnemy) => dispatch => {
-    return axios.get(API_URL+"/api/pokemons",isEnemy).then(
+    return axios.get("/api/pokemons",isEnemy).then(
         res => {
             dispatch({
                 type: ACTION_TYPES.GET_ALL_POKEMONS,
@@ -15,7 +14,7 @@ export const getAllPokemon = (isEnemy) => dispatch => {
 }
 
 export const insertPokemon = (pokemon) => dispatch => {
-    return axios.post(API_URL+"/api/pokemons/addPokemon",pokemon).then(
+    return axios.post("/api/pokemons/addPokemon",pokemon).then(
         res => {
             dispatch({
                 type: ACTION_TYPES.INSERT_POKEMON,
@@ -27,7 +26,7 @@ export const insertPokemon = (pokemon) => dispatch => {
 }
 
 export const updatePokemonCoordinates = (id,coordinates) => dispatch => {
-    return axios.put(API_URL+`/api/pokemons/updateCoordinates/${id}`,{coordinates:coordinates}).then(
+    return axios.put(`/api/pokemons/updateCoordinates/${id}`,{coordinates:coordinates}).then(
         res => {
             dispatch({
                 type: ACTION_TYPES.UPDATE_POKEMON_COORDINATES,
@@ -39,7 +38,7 @@ export const updatePokemonCoordinates = (id,coordinates) => dispatch => {
 }
 
 export const updatePokemon = (id,hp,coordinates) => dispatch => {
-    return axios.put(API_URL+`/api/pokemons/update/${id}`,{hp:hp,coordinates:coordinates}).then(
+    return axios.put(`/api/pokemons/update/${id}`,{hp:hp,coordinates:coordinates}).then(
         res => {
             dispatch({
                 type: ACTION_TYPES.UPDATE_POKEMON,
