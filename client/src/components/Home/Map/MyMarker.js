@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { insertLogs, updatePokemon, selectMyPokemon, selectEnemyPokemon } from '../../../actions/pokemon'
+import { insertLogs, updatePokemon, selectMyPokemon, selectEnemyPokemon, updatePokemonCoordinates } from '../../../actions/pokemon'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../../styles/home.module.css'
@@ -42,7 +42,7 @@ function MyMarker(props) {
             else if (poke.hp > 100) {
                 poke.hp = 100;
             }
-            dispatch(updatePokemon(selectedEnemyPokemon._id, poke.hp, poke.coordinates));
+            dispatch(updatePokemon(selectedEnemyPokemon._id, poke.hp));
             dispatch(insertLogs(`${selectedEnemyPokemon.name} ${poke.hp} HP life remaining`));
 
             //opposite turn
@@ -63,10 +63,9 @@ function MyMarker(props) {
                 });
             }
             else {
-                debugger;
                 enemies = enemies.filter(function (obj) {
-                    return obj.coordinates.lat !== selectedEnemyPokemon.coordinates.lat && obj.coordinates.lng !== selectedEnemyPokemon.coordinates.lng;
-                })
+                    return obj.name !== selectedEnemyPokemon.name;
+                });
                 renderSelectEnemies();
             }
         }
@@ -89,7 +88,7 @@ function MyMarker(props) {
                     else if (poke.hp > 100) {
                         poke.hp = 100;
                     }
-                    dispatch(updatePokemon(myPokemon._id, poke.hp, poke.coordinates));
+                    dispatch(updatePokemon(myPokemon._id, poke.hp));
                     dispatch(insertLogs(`${myPokemon.name} ${poke.hp} HP life remaining`));
                 }
                 else {
@@ -146,9 +145,11 @@ function MyMarker(props) {
             <select id="enemies-list" class="${styles.selectEnemy}">
                ${popUpHtml}
             </select>
-            <button id="attack" class="${styles.attackButton}" data-id="${myPokemons[i]._id}">Attack</button>
+            <button id="attack" class="${styles.attackButton}" data-id="${myPokemons[i]._id}" disabled>Attack</button>
             `)
+            element.closePopup();
         }
+
     }
 
     const dropEvent = function (e) {
@@ -189,7 +190,7 @@ function MyMarker(props) {
                             droppedPokemonIsAllies = true;
                             markers.myMarkers.push(mark);
                         }
-                        dispatch(updatePokemon(droppedPokemon._id, droppedPokemon.hp, coordinates)); // update pokemon coordinates
+                        dispatch(updatePokemonCoordinates(droppedPokemon._id,coordinates)); // update pokemon coordinates
 
                         mark.on('dragend', function (ev) {
                             var d = leafmap.distance(ev.target._latlng, layer.getLatLng());
@@ -202,7 +203,7 @@ function MyMarker(props) {
                                     lat: ev.target._latlng.lat,
                                     lng: ev.target._latlng.lng
                                 }
-                                dispatch(updatePokemon(droppedPokemon._id, droppedPokemon.hp, crdnt));
+                                dispatch(updatePokemonCoordinates(droppedPokemon._id, crdnt));
                                 dispatch(insertLogs(`${droppedPokemon.name} changed location LatLng(${droppedPokemon.coordinates.lat.toFixed(6)} - ${droppedPokemon.coordinates.lng.toFixed(6)}) to ${ev.target._latlng}`));
                             }
 
@@ -211,11 +212,10 @@ function MyMarker(props) {
 
                         mark.on('popupopen', function (e) {
                             if (isBAActive) {
-                                const attackButton = document.getElementById('attack');
-
-                                let myPokemon = pokeData.find(x => x._id === attackButton.dataset.id);
+                                let myPokemon = pokeData.find(x => x.coordinates.lat === e.target._latlng.lat && x.coordinates.lng === e.target._latlng.lng);
                                 dispatch(selectMyPokemon(myPokemon._id));
 
+                                const attackButton = document.getElementById('attack');
                                 const enemiesList = document.getElementById('enemies-list');
                                 attackButton.addEventListener('click', attack);
                                 enemiesList.addEventListener('change', enemiesListChange);
@@ -236,6 +236,7 @@ function MyMarker(props) {
     };
 
     const enemiesListChange = (e) => {
+        document.getElementById('attack').disabled = false;
         let selectedEnemyPokemon = pokeData.find(x => x._id === e.target.value);
         dispatch(selectEnemyPokemon(selectedEnemyPokemon._id))
     }

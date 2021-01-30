@@ -26,6 +26,18 @@ export const insertPokemon = (pokemon) => dispatch => {
     )
 }
 
+export const updatePokemonCoordinates = (id,coordinates) => dispatch => {
+    return axios.put(API_URL+`/api/pokemons/updateCoordinates/${id}`,{coordinates:coordinates}).then(
+        res => {
+            dispatch({
+                type: ACTION_TYPES.UPDATE_POKEMON_COORDINATES,
+                payload:res.data
+            });
+            return Promise.resolve();
+        }
+    )
+}
+
 export const updatePokemon = (id,hp,coordinates) => dispatch => {
     return axios.put(API_URL+`/api/pokemons/update/${id}`,{hp:hp,coordinates:coordinates}).then(
         res => {

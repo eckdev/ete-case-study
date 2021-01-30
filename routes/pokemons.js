@@ -38,10 +38,19 @@ router.get('/', async (req, res) => {
 });
 
 router.put('/update/:id', async (req, res) => {
-  const { hp,coordinates } = req.body;
-  console.log(req.params.id);
+  const { hp } = req.body;
   const update ={
-    hp: hp,
+    hp: hp
+  }
+  let doc = await Pokemon.findByIdAndUpdate(req.params.id, update, {
+    new: true
+  });
+  res.send(doc);
+});
+
+router.put('/updateCoordinates/:id', async (req, res) => {
+  const { coordinates } = req.body;
+  const update ={
     coordinates: coordinates
   }
   let doc = await Pokemon.findByIdAndUpdate(req.params.id, update, {

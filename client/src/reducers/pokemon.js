@@ -1,9 +1,15 @@
-import {GET_ALL_POKEMONS,INSERT_POKEMON,UPDATE_POKEMON,MY_POKEMON, ENEMY_POKEMON} from '../actions/types'
+import {GET_ALL_POKEMONS,INSERT_POKEMON,UPDATE_POKEMON,MY_POKEMON, ENEMY_POKEMON, UPDATE_POKEMON_COORDINATES} from '../actions/types'
 
 let initialState = {
   pokemons:[],
-  myPokemon: {},
-  enemyPokemon: {}
+  myPokemon: {
+    name:'',
+    hp:0
+  },
+  enemyPokemon: {
+    name:'',
+    hp:0
+  }
 }
 
 export default function(state = initialState, action) {
@@ -14,14 +20,31 @@ export default function(state = initialState, action) {
           pokemons: action.payload
       }
       case UPDATE_POKEMON:
-        return {
-          ...state,
-          pokemons: state.pokemons.map(pokemon =>
-            pokemon._id === action.payload._id
-              ? { ...pokemon, hp: action.payload.hp,coordinates: action.payload.coordinates }
-              : pokemon
-          )
+        let pokes = state.pokemons.map(pokemon =>
+          pokemon._id === action.payload._id
+            ? { ...pokemon, hp: action.payload.hp }
+            : pokemon
+        );
+        let poke = {
+          name:action.payload.name,
+          hp:action.payload.hp
         }
+        let states = {
+          ...state,
+          pokemons: pokes,
+          myPokemon: !action.payload.isEnemy ? poke : state.myPokemon,
+          enemyPokemon: action.payload.isEnemy ? poke : state.enemyPokemon
+        }
+        return states;
+        case UPDATE_POKEMON_COORDINATES:
+          return {
+            ...state,
+            pokemons: state.pokemons.map(pokemon =>
+              pokemon._id === action.payload._id
+                ? { ...pokemon, coordinates: action.payload.coordinates }
+                : pokemon
+            )
+          };
     case INSERT_POKEMON:
         return {
           ...state,
