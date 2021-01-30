@@ -25,7 +25,7 @@ function PokemonCardList({ pokemonData }) {
                                 }
                             </>
                             :
-                            <span>No Record</span>
+                            <span className={styles.noRecord}>No Record</span>
                     }
                     {
                         myPokemons.length < 3 ? <CreatePokemonButton isModalOpen={IsModalOpen} setIsModalOpen={setIsModalOpen} /> : ''

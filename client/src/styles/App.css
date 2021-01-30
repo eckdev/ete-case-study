@@ -44,6 +44,14 @@ input{
   width: 50px;
 }
 
+hr:last-child{
+  display: none;
+}
+
+img{
+  cursor: pointer;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
