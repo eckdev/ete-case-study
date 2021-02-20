@@ -1,8 +1,8 @@
-# Ete Web Application
+# Map based pokemon battle game
 
 > Eyupcan Kayadarcin web application built with ReactJS, Redux, Leaflet JS & MongoDB.
 
-I have hosted it by heroku: [etecasestudy](https://eyupwebapp.herokuapp.com/)
+I have hosted it by heroku: (https://eyupwebapp.herokuapp.com/)
 
 #API
 | Method   | URL                 | Operation                                |
